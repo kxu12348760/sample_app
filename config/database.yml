@@ -42,7 +42,7 @@ test:
 #  pool: 5
 #  timeout: 5000
 
-test:
+prod:
   adapter: postgresql
   encoding: unicode
   host: localhost
