@@ -4,6 +4,9 @@ gem 'rails', '3.2.13'
 gem 'pg', '0.12.2'
 gem 'bootstrap-sass', '2.1'
 gem 'bcrypt-ruby', '3.0.1'
+gem 'faker', '1.0.1'
+gem 'will_paginate', '3.0.3'
+gem 'bootstrap-will_paginate', '0.0.6'
 
 group :development, :test do
 	gem 'rspec-rails', '2.11.0'
@@ -32,4 +35,6 @@ group :test do
 	gem 'rb-fsevent', '0.9.1', :require => false
 	gem 'growl', '1.0.3'
 	gem 'factory_girl_rails', '4.1.0'
+	gem 'cucumber-rails', '1.2.1', :require => false
+	gem 'database_cleaner', '0.7.0'
 end

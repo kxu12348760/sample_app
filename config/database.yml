@@ -27,7 +27,7 @@ development:
 #  pool: 5
 #  timeout: 5000
 
-test:
+test: &test
   adapter: postgresql
   encoding: unicode
   host: localhost
@@ -50,3 +50,6 @@ prod:
   username: kxu12348760
   password:
   database: sample_app-prod
+
+cucumber:
+  <<: *test
