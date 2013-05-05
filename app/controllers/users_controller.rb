@@ -27,6 +27,10 @@ class UsersController < ApplicationController
 
   def create
   	@user = User.new(params[:user])
+    numUsers = User.count
+    if numUsers == 0
+      @user.admin = true
+    end
   	if @user.save
       sign_in @user
   		flash[:success] = "Welcome to the Sample App!"
