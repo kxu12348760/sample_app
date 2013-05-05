@@ -5,6 +5,18 @@ class UsersController < ApplicationController
   before_filter :cannot_delete_current_admin, only: :destroy
   before_filter :signed_in_already, only: [:new, :create]
 
+  def promote
+    @user = User.find(params[:id])
+    @user.admin = true
+
+    if @user.save(:validate => false)
+      flash[:success] = @user.name + " has been successfully promoted to an admin!"
+    else
+      flash[:error] = @user.name + " could not be promoted to an admin!"
+    end
+    redirect_to users_path
+  end
+
   def show
   	@user = User.find(params[:id])
   end
@@ -38,7 +50,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.paginate(page: params[:page], :order => 'id ASC')
   end
 
   def destroy
