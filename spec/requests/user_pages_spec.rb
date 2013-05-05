@@ -41,7 +41,8 @@ describe "UserPages" do
 			describe "as an admin user" do
 				let(:admin) { FactoryGirl.create(:admin) }
 				before do
-					visit signin_path
+					click_link "Sign out"
+					visit signin_path		
 					valid_signin(admin)
 					visit users_path
 				end
@@ -49,7 +50,11 @@ describe "UserPages" do
 				it { should have_link('delete', href: user_path(User.first)) }
 				it "should be able to delete another user" do
 					expect { click_link('delete') }.to change(User, :count).by(-1)
+
+					page.should have_title('All users')
+					page.should have_content('User destroyed.')
 				end
+
 				it { should_not have_link('delete', href: user_path(admin)) }
 			end
 		end
