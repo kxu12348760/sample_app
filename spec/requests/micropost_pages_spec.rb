@@ -9,6 +9,21 @@ describe "MicropostPages" do
 		valid_signin(user) 
 	end
 
+	describe "micropost pagination" do
+		before do
+			31.times { FactoryGirl.create(:micropost, user: user) }
+			visit root_path
+		end
+
+		it { should have_selector('div.pagination') }
+
+		it "should list each micropost" do
+			user.microposts.paginate(page: 1).each do |micropost|
+				page.should have_selector('li', text: micropost.content)
+			end
+		end
+	end
+
 	describe "micropost creation" do
 		before { visit root_path }
 

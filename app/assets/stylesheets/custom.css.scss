@@ -119,6 +119,14 @@ footer {
 
 /* sidebar */
 
+#numCharacters {
+	display: inline-block !important;
+}
+
+.error_text {
+    color: #f00;
+}
+
 aside {
 	section {
 		padding: 10px 0;

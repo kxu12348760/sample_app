@@ -69,19 +69,39 @@ describe "UserPages" do
 
 	describe "profile page" do
 		let(:user) { FactoryGirl.create(:user) }
+		let(:anotheruser) { FactoryGirl.create(:user) }
 		let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
 		let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
+		let!(:m3) { FactoryGirl.create(:micropost, user: anotheruser, content: "Baz") }
 
-		before { visit user_path(user) }
+		before do
+			visit signin_path
+			valid_signin(user)
+			visit user_path(user)
+		end
 
 		let (:heading) { user.name }
 		let (:page_title) { user.name }
 		it_should_behave_like "all user pages"
 
-		describe "microposts" do
+		describe "microposts for current user" do
 			it { should have_content(m1.content) }
 			it { should have_content(m2.content) }
+			it { should_not have_content(m3.content) }
 			it { should have_content(user.microposts.count) }
+			it { should have_link('delete') }
+		end
+
+		describe "microposts for another user" do
+			before do
+				visit user_path(anotheruser)
+			end
+
+			it { should_not have_content(m1.content) }
+			it { should_not have_content(m2.content) }
+			it { should have_content(m3.content) }
+			it { should have_content(anotheruser.microposts.count) }
+			it { should_not have_link('delete') }
 		end
 	end
 

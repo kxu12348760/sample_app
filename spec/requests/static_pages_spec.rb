@@ -20,7 +20,6 @@ describe "Static pages" do
 			let(:user) { FactoryGirl.create(:user) }
 			before do
 				FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-				FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
 				visit signin_path
 				valid_signin(user)
 				visit root_path
@@ -30,6 +29,16 @@ describe "Static pages" do
 				user.feed.each do |item|
 					page.should have_selector("li##{item.id}", text: item.content)
 				end
+			end
+
+			it "should have the correct micropost count for 1 micropost" do
+				page.should have_content("1 micropost")
+			end
+
+			it "should have the correct micropost count for 2 microposts" do
+				fill_in 'micropost_content', with: "Dolor apsit"
+				click_button "Post"
+				page.should have_content("2 microposts")
 			end
 		end
 	end
